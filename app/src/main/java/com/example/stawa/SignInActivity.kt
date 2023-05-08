@@ -21,7 +21,7 @@ class SignInActivity : AppCompatActivity() {
         val btningresar: Button= findViewById(R.id.idinicio)
         val txtemail: TextView = findViewById(R.id.idcorreo)
         val txtcontra: TextView=findViewById(R.id.idcontra)
-        val btnRecordar: TextView =findViewById(R.id.btnolvidar)
+        val btnRecordar: Button =findViewById(R.id.olvidar)
         firebaseAuth=Firebase.auth
         btningresar.setOnClickListener()
         {
