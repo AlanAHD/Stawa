@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "244320369758",
+    "project_id": "stawa-63453",
+    "storage_bucket": "stawa-63453.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244320369758:android:0c9e1d5e4bd1e0ef8748cf",
+        "android_client_info": {
+          "package_name": "com.example.stawa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244320369758-lohn6i16jo6nl42jdm5vnqq7qevh8kjm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwoPk5_Wo2rxAniqrHxmJVkprhEW71HHA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244320369758-lohn6i16jo6nl42jdm5vnqq7qevh8kjm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
