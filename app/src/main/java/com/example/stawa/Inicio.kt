@@ -3,6 +3,7 @@ package com.example.stawa
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.View
 import android.widget.LinearLayout
 import com.example.stawa.databinding.ActivityInicioBinding
@@ -26,6 +27,7 @@ class Inicio : AppCompatActivity() {
 //-------------- Redondear -----------------//
         val myLinearLayout = findViewById<LinearLayout>(R.id.myLinearLayout)
     binding.textView6.typeface= Typeface.createFromAsset(assets, "Fonts/Abel-Regular.ttf")
+
 
 
 }
