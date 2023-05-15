@@ -32,7 +32,7 @@ class SignUpActivity : AppCompatActivity() {
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Carga la imagen desde los recursos
+//----------------- Imagen borrosa en el banner superior ------------------//
 
         // Carga la imagen desde los recursos
         val bitmap = BitmapFactory.decodeResource(resources, R.drawable.imagehamburgerban)
