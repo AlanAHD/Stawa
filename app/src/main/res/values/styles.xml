@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="radius">
+        <item name="cornerSizeBottomRight">150dp</item>
+        <item name="cornerSizeBottomLeft">150dp</item>
+    </style>
+</resources>

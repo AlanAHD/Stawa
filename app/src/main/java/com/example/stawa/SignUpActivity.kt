@@ -1,12 +1,20 @@
 package com.example.stawa
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.renderscript.Allocation
+import android.renderscript.Element
+import android.renderscript.RenderScript
+import android.renderscript.ScriptIntrinsicBlur
 import android.util.Patterns
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.stawa.databinding.ActivityInicioBinding
+import com.example.stawa.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
@@ -15,9 +23,53 @@ import org.w3c.dom.Text
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var binding: ActivitySignUpBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+
+//----------------- Implementacion de la raiz Binding ---------------------//
+        binding = ActivitySignUpBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Carga la imagen desde los recursos
+
+        // Carga la imagen desde los recursos
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.imagehamburgerban)
+
+        // Crea una instancia de RenderScript y ScriptIntrinsicBlur
+
+        // Crea una instancia de RenderScript y ScriptIntrinsicBlur
+        val renderScript = RenderScript.create(this)
+        val scriptIntrinsicBlur = ScriptIntrinsicBlur.create(renderScript, Element.U8_4(renderScript))
+
+        // Crea un bitmap con la misma resolución que la imagen
+
+        // Crea un bitmap con la misma resolución que la imagen
+        val blurredBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+
+        // Crea un Allocation con el bitmap
+
+        // Crea un Allocation con el bitmap
+        val allocationIn = Allocation.createFromBitmap(renderScript, bitmap)
+        val allocationOut = Allocation.createFromBitmap(renderScript, blurredBitmap)
+
+        // Establece el radio del blur y aplica el efecto
+
+        // Establece el radio del blur y aplica el efecto
+        scriptIntrinsicBlur.setRadius(25f)
+        scriptIntrinsicBlur.setInput(allocationIn)
+        scriptIntrinsicBlur.forEach(allocationOut)
+
+        // Convierte el Allocation de salida en un Bitmap y muestra en el ImageView
+
+        // Convierte el Allocation de salida en un Bitmap y muestra en el ImageView
+        allocationOut.copyTo(blurredBitmap)
+        binding.banner2.setImageBitmap(blurredBitmap)
+
+
+
+
         val txtnombre_nuevo : TextView = findViewById(R.id.edtNombre)
         val txtcorreo_nuevo : TextView = findViewById(R.id.edtEmail)
         val txtpassword1: TextView = findViewById(R.id.edtContra)

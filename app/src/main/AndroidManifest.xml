@@ -26,7 +26,8 @@
             android:exported="false" />
         <activity
             android:name=".SignUpActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".PrincipalActivity"
             android:exported="false">

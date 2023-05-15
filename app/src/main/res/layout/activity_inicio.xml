@@ -8,6 +8,7 @@
     tools:context=".Inicio">
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -15,9 +16,25 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="555dp"
-            android:gravity="center"
+            android:layout_height="562dp"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
+
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/banner"
+                android:layout_width="match_parent"
+                android:layout_height="177dp"
+                android:scaleType="centerCrop"
+
+                android:src="@drawable/imagehamburgerban"
+                app:shapeAppearance="@style/radius"
+
+                />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="42dp" />
 
             <TextView
                 android:id="@+id/textView4"
@@ -28,6 +45,10 @@
                 android:textColor="#ffffff"
                 android:textSize="55sp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="12dp" />
+
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="204dp"
@@ -37,11 +58,18 @@
                 android:textColor="#FFCC57"
                 android:textSize="20sp" />
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="13dp" />
+
             <Button
                 android:id="@+id/botonRegistro"
-                android:layout_width="match_parent"
+                android:layout_width="242dp"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:background="@drawable/rbuttonshad"
+                android:elevation="22dp"
+                android:text="Comienza con Nosotros"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -56,7 +84,7 @@
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="132dp"
+                android:layout_height="121dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -80,7 +108,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="25dp" />
+                    android:layout_height="15dp" />
 
                 <LinearLayout
                     android:layout_width="200dp"
@@ -89,6 +117,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:id="@+id/googleButton"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -121,7 +150,19 @@
             </LinearLayout>
 
         </LinearLayout>
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="228dp"
+        android:layout_height="89dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002"
+        app:srcCompat="@drawable/stawaicon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
