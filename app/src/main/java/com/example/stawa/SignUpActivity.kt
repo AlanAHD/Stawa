@@ -68,7 +68,10 @@ class SignUpActivity : AppCompatActivity() {
         binding.banner2.setImageBitmap(blurredBitmap)
 
 
-
+        binding.iniciarSesionB.setOnClickListener(){
+            val intent: Intent = Intent(this,SignInActivity::class.java)
+            startActivity(intent)
+        }
 
         val txtnombre_nuevo : TextView = findViewById(R.id.edtNombre)
         val txtcorreo_nuevo : TextView = findViewById(R.id.edtEmail)

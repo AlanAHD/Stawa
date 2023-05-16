@@ -79,6 +79,7 @@
                                 android:ems="10"
                                 android:hint="Correo Electronico"
                                 android:inputType="textEmailAddress"
+                                android:textColor="#FFCC57"
                                 android:textColorHint="#FFCC57" />
 
                             <EditText
@@ -99,6 +100,7 @@
                                 android:ems="10"
                                 android:hint="Confirmar Contraseña"
                                 android:inputType="textPassword"
+                                android:textColor="#FFCC57"
                                 android:textColorHint="#FFCC57" />
 
                             <Space
@@ -153,7 +155,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/googleButton"
+                        android:id="@+id/iniciarSesionB"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

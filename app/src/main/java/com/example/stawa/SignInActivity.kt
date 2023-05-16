@@ -59,7 +59,7 @@ class SignInActivity : AppCompatActivity() {
                 val verificar= user?.isEmailVerified
                 if(verificar==true){
                     Toast.makeText(baseContext,"Autentificacion exitosa",Toast.LENGTH_SHORT).show()
-                    val i = Intent(this,PrincipalActivity::class.java)
+                    val i = Intent(this,Profile::class.java)
                     startActivity(i)
                 }else{
                     Toast.makeText(baseContext,"Debes verificar tu correo electronico",Toast.LENGTH_SHORT).show()

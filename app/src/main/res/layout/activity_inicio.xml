@@ -117,7 +117,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/googleButton"
+                        android:id="@+id/iniciarSesionB"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
