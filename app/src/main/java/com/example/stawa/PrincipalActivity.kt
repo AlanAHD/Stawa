@@ -38,6 +38,7 @@ class PrincipalActivity : AppCompatActivity() {
     private lateinit var postAdapter: PostAdapter
     private lateinit var postsReference: DatabaseReference
     private lateinit var database: FirebaseDatabase
+    private val EDIT_PROFILE_REQUEST_CODE = 1
     private val PICK_IMAGE_REQUEST = 1
     private val postsList: ArrayList<Post> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +51,7 @@ class PrincipalActivity : AppCompatActivity() {
         val recycle=findViewById<RecyclerView>(R.id.recyclerView)
         recycle.layoutManager=LinearLayoutManager(this)
 
-        postAdapter= PostAdapter(this, emptyList())
+        postAdapter= PostAdapter(this, emptyList(),currentUser)
         recycle.adapter=postAdapter
 
         val btncrearpost:FloatingActionButton=findViewById(R.id.agregarp)
@@ -100,7 +101,7 @@ class PrincipalActivity : AppCompatActivity() {
             }
             R.id.verperfil->{
                 val i=Intent(this,ViewProfile::class.java)
-                startActivity(i)
+                startActivityForResult(i,EDIT_PROFILE_REQUEST_CODE)
             }
         }
         return super.onOptionsItemSelected(item)

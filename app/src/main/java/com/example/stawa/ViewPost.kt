@@ -1,8 +1,11 @@
 package com.example.stawa
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
@@ -21,8 +24,11 @@ class ViewPost : AppCompatActivity() {
         auth= FirebaseAuth.getInstance()
         val uid=auth.currentUser?.uid?:""
         firebaseAuth= Firebase.auth
+        val contenidoTextView: TextView = findViewById(R.id.contenidov)
+        val cantidadTextView: TextView = findViewById(R.id.cantidadv)
+        val btnGuardar:Button=findViewById(R.id.SaveEditPost)
         DatabaseReference= FirebaseDatabase.getInstance().getReference("posts")
-        val postId=DatabaseReference.push().key?:""
+        val postId=intent.getStringExtra("postKey")?:""
         val userRef = FirebaseDatabase.getInstance().getReference("posts").child(postId)
         userRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -40,6 +46,27 @@ class ViewPost : AppCompatActivity() {
                     nombreTextView.text = nombre
                     contenidoTextView.text = contenido
                     cantidadTextView.text = cantidad
+
+
+                    btnGuardar.setOnClickListener {
+                        val contenidoEditado = contenidoTextView.text.toString()
+                        val cantidadEditada = cantidadTextView.text.toString()
+
+                        val postUpdates = mapOf<String, Any>(
+                            "contenido" to contenidoEditado,
+                            "cantidad" to cantidadEditada
+                        )
+
+                        userRef.updateChildren(postUpdates)
+                            .addOnSuccessListener {
+                                Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                            .addOnFailureListener { exception ->
+                                Toast.makeText(baseContext,"Datos guardados correctamente"+exception,Toast.LENGTH_SHORT).show()
+                            }
+                    }
+
                 }
             }
             override fun onCancelled(error: DatabaseError) {

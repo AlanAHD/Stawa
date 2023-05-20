@@ -53,7 +53,7 @@ class Profile : AppCompatActivity() {
                         databaseReference.child(uid).setValue(user).addOnCompleteListener(){
                             if(it.isSuccessful){
                                 Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
-                                val i=Intent(this,PrincipalActivity::class.java)
+                                val i=Intent(this,SignInActivity::class.java)
                                 startActivity(i)
 
                             }else{

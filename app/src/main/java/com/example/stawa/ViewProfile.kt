@@ -93,6 +93,26 @@ class ViewProfile : AppCompatActivity() {
                         val userRef=FirebaseDatabase.getInstance().getReference("users").child(uid)
                         userRef.setValue(user).addOnCompleteListener(){
                             if(it.isSuccessful){
+                                val postsReference = FirebaseDatabase.getInstance().getReference("posts")
+                                val query = postsReference.orderByChild("userId").equalTo(uid)
+                                query.addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                        // Actualizar el nombre de usuario en cada publicación
+                                        for (postSnapshot in dataSnapshot.children) {
+                                            val postKey = postSnapshot.key
+                                            val post = postSnapshot.getValue(Post::class.java)
+                                            if(post?.userId==uid) {
+                                                post.username = firstname // Actualizar el nombre de usuario
+                                                postSnapshot.ref.setValue(post) // Actualizar la publicación en la base de datos
+                                            }
+                                        }
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        // Ocurrió un error al obtener las publicaciones del usuario
+                                        // Puedes mostrar un mensaje de error o realizar alguna acción adicional
+                                    }
+                                })
                                 Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
                                 // Deshabilitar la edición nuevamente
                                 nombreTextView.isEnabled = false

@@ -34,8 +34,8 @@ class CreatePost : AppCompatActivity() {
         btnagregarpost.setOnClickListener(){
             val contenido=contenido.text.toString()
             val cantidad=cantidad.text.toString()
-            val post=Post(name,contenido,cantidad)
             val postID=databaseReference.push().key
+            val post=Post(postID,uid,name,contenido,cantidad)
             if(postID!=null){
                 databaseReference.child(postID).setValue(post).addOnCompleteListener(){
                     if(it.isSuccessful){

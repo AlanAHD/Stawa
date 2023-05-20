@@ -127,7 +127,7 @@ class SignUpActivity : AppCompatActivity() {
                             if(task.isSuccessful){
                                 SendEmailVerification()
                                 Toast.makeText(baseContext,"Cuenta Creada Correctamente",Toast.LENGTH_SHORT).show()
-                                val i = Intent(this,SignInActivity::class.java)
+                                val i = Intent(this,Profile::class.java)
                                 startActivity(i)
                             }
                         }
