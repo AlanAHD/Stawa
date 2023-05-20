@@ -10,6 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -41,18 +43,28 @@ class Profile : AppCompatActivity() {
             val lastname=apellido.text.toString()
             val bio=bio.text.toString()
             val user=User(firstname,lastname, bio)
-            if(uid!=null){
-                databaseReference.child(uid).setValue(user).addOnCompleteListener(){
-                    if(it.isSuccessful){
-                        Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
-                        val i=Intent(this,PrincipalActivity::class.java)
-                        startActivity(i)
+            val currentUser:FirebaseUser?=auth.currentUser
+            val profileUpdates = UserProfileChangeRequest.Builder()
+                .setDisplayName(firstname)
+                .build()
+            currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener{task->
+                if (task.isSuccessful){
+                    if(uid!=null){
+                        databaseReference.child(uid).setValue(user).addOnCompleteListener(){
+                            if(it.isSuccessful){
+                                Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
+                                val i=Intent(this,PrincipalActivity::class.java)
+                                startActivity(i)
 
-                    }else{
-                        Toast.makeText(baseContext,"Error: no se pudieron guardar los datos"+it.exception,Toast.LENGTH_SHORT).show()
+                            }else{
+                                Toast.makeText(baseContext,"Error: no se pudieron guardar los datos"+it.exception,Toast.LENGTH_SHORT).show()
+                            }
+                        }
                     }
+
                 }
             }
+
         }
     }
 

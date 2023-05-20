@@ -40,6 +40,10 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>):
         holder.layout.findViewById<TextView>(R.id.nameperson_tv).text = post.username
         holder.layout.findViewById<TextView>(R.id.post_tv).text = post.contenido
         holder.layout.findViewById<TextView>(R.id.post_tv2).text = post.cantidad
+        holder.layout.setOnClickListener{
+            val i=Intent(activity,ViewPost::class.java)
+            activity.startActivity(i)
+        }
 
 
         //holder.layout.findViewById<Button>(R.id.compartirbtn).setOnClickListener{
