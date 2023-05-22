@@ -2,6 +2,7 @@ package com.example.stawa
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.service.autofill.Dataset
 import android.view.LayoutInflater
 import android.view.View
@@ -11,8 +12,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 
@@ -43,6 +47,13 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>,p
         holder.layout.findViewById<TextView>(R.id.nameperson_tv).text = post.username
         holder.layout.findViewById<TextView>(R.id.post_tv).text = post.contenido
         holder.layout.findViewById<TextView>(R.id.post_tv2).text = post.cantidad
+        val imageView = holder.layout.findViewById<ImageView>(R.id.Ipost)
+        // Limpiar la referencia del ImageView antes de cargar la nueva imagen
+        Picasso.get().cancelRequest(imageView)
+        imageView.setImageDrawable(null)
+
+        // Cargar la imagen utilizando Picasso
+        Picasso.get().load(post.imageurl).into(imageView)
 
         val currentUsername=currentUser.displayName
         val isCurrentUserpost=currentUsername==post.username
@@ -78,6 +89,16 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>,p
                 }
         }
 
+        holder.layout.findViewById<Button>(R.id.sharepost).setOnClickListener{
+            val i=Intent().apply {
+                action=Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "Nombre de usuario: ${post.username}\nContenido: ${post.contenido}\nCantidad: ${post.cantidad}\n" +
+                        "Imagen: ${post.imageurl}")
+                type = "text/plain"
+            }
+            val compartir=Intent.createChooser(i,"Compartir Post")
+            activity.startActivity(compartir)
+        }
 
         //holder.layout.findViewById<Button>(R.id.compartirbtn).setOnClickListener{
             //val i=Intent().apply {

@@ -39,32 +39,46 @@ class Profile : AppCompatActivity() {
             seleccionarImagenDeGaleria()
         }
         btnguardar.setOnClickListener(){
-            val firstname=nombre.text.toString()
-            val lastname=apellido.text.toString()
-            val bio=bio.text.toString()
-            val user=User(firstname,lastname, bio)
-            val currentUser:FirebaseUser?=auth.currentUser
-            val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(firstname)
-                .build()
-            currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener{task->
-                if (task.isSuccessful){
-                    if(uid!=null){
-                        databaseReference.child(uid).setValue(user).addOnCompleteListener(){
-                            if(it.isSuccessful){
-                                Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
-                                val i=Intent(this,SignInActivity::class.java)
-                                startActivity(i)
+            val firstname = nombre.text.toString()
+            val lastname = apellido.text.toString()
+            val bio = bio.text.toString()
 
-                            }else{
-                                Toast.makeText(baseContext,"Error: no se pudieron guardar los datos"+it.exception,Toast.LENGTH_SHORT).show()
+            if (firstname.isNotEmpty() && lastname.isNotEmpty() && bio.isNotEmpty() && imageUri != null) {
+                val user = User(firstname, lastname, bio)
+                val currentUser: FirebaseUser? = auth.currentUser
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(firstname)
+                    .build()
+                currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (uid != null) {
+                            databaseReference.child(uid).setValue(user).addOnCompleteListener() {
+                                if (it.isSuccessful) {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Datos guardados correctamente",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    val i = Intent(this, SignInActivity::class.java)
+                                    startActivity(i)
+                                } else {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Error: no se pudieron guardar los datos" + it.exception,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
                     }
-
                 }
+            } else {
+                Toast.makeText(
+                    this,
+                    "Por favor, completa todos los campos y selecciona una imagen",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-
         }
     }
 

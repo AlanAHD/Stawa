@@ -1,9 +1,11 @@
 package com.example.stawa
 
 import android.content.Intent
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -11,6 +13,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 
 class ViewPost : AppCompatActivity() {
     private lateinit var nombre: TextView
@@ -26,6 +29,7 @@ class ViewPost : AppCompatActivity() {
         firebaseAuth= Firebase.auth
         val contenidoTextView: TextView = findViewById(R.id.contenidov)
         val cantidadTextView: TextView = findViewById(R.id.cantidadv)
+        val imagePost:ImageView=findViewById(R.id.imagenpost2)
         val btnGuardar:Button=findViewById(R.id.SaveEditPost)
         DatabaseReference= FirebaseDatabase.getInstance().getReference("posts")
         val postId=intent.getStringExtra("postKey")?:""
@@ -37,6 +41,7 @@ class ViewPost : AppCompatActivity() {
                     val nombre = dataSnapshot.child("username").getValue(String::class.java)
                     val contenido = dataSnapshot.child("contenido").getValue(String::class.java)
                     val cantidad = dataSnapshot.child("cantidad").getValue(String::class.java)
+                    val image=dataSnapshot.child("imageurl").getValue(String::class.java)
 
                     // Muestra los datos en TextViews u otros componentes
                     val nombreTextView: TextView = findViewById(R.id.NombreViewP)
@@ -46,6 +51,12 @@ class ViewPost : AppCompatActivity() {
                     nombreTextView.text = nombre
                     contenidoTextView.text = contenido
                     cantidadTextView.text = cantidad
+
+
+                    // Carga la imagen utilizando Picasso
+                    if (!image.isNullOrEmpty()) {
+                        Picasso.get().load(image).into(imagePost)
+                    }
 
 
                     btnGuardar.setOnClickListener {

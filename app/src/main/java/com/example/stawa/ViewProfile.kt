@@ -82,57 +82,74 @@ class ViewProfile : AppCompatActivity() {
             val firstname = nombreTextView.text.toString()
             val lastname = apellidoTextView.text.toString()
             val bio = bioTextView.text.toString()
-            val user = User(firstname, lastname, bio)
-            val currentUser: FirebaseUser?=auth.currentUser
-            val profileUpdates = UserProfileChangeRequest.Builder()
-                .setDisplayName(firstname)
-                .build()
-            currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener{task->
-                if (task.isSuccessful){
-                    if(uid!=null){
-                        val userRef=FirebaseDatabase.getInstance().getReference("users").child(uid)
-                        userRef.setValue(user).addOnCompleteListener(){
-                            if(it.isSuccessful){
-                                val postsReference = FirebaseDatabase.getInstance().getReference("posts")
-                                val query = postsReference.orderByChild("userId").equalTo(uid)
-                                query.addListenerForSingleValueEvent(object : ValueEventListener {
-                                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                                        // Actualizar el nombre de usuario en cada publicación
-                                        for (postSnapshot in dataSnapshot.children) {
-                                            val postKey = postSnapshot.key
-                                            val post = postSnapshot.getValue(Post::class.java)
-                                            if(post?.userId==uid) {
-                                                post.username = firstname // Actualizar el nombre de usuario
-                                                postSnapshot.ref.setValue(post) // Actualizar la publicación en la base de datos
+
+            if (firstname.isNotEmpty() && lastname.isNotEmpty() && bio.isNotEmpty()) {
+                val user = User(firstname, lastname, bio)
+                val currentUser: FirebaseUser? = auth.currentUser
+                val profileUpdates = UserProfileChangeRequest.Builder()
+                    .setDisplayName(firstname)
+                    .build()
+                currentUser?.updateProfile(profileUpdates)?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (uid != null) {
+                            val userRef =
+                                FirebaseDatabase.getInstance().getReference("users").child(uid)
+                            userRef.setValue(user).addOnCompleteListener() {
+                                if (it.isSuccessful) {
+                                    val postsReference =
+                                        FirebaseDatabase.getInstance().getReference("posts")
+                                    val query = postsReference.orderByChild("userId").equalTo(uid)
+                                    query.addListenerForSingleValueEvent(object :
+                                        ValueEventListener {
+                                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                                            // Actualizar el nombre de usuario en cada publicación
+                                            for (postSnapshot in dataSnapshot.children) {
+                                                val postKey = postSnapshot.key
+                                                val post =
+                                                    postSnapshot.getValue(Post::class.java)
+                                                if (post?.userId == uid) {
+                                                    post.username = firstname // Actualizar el nombre de usuario
+                                                    postSnapshot.ref.setValue(post) // Actualizar la publicación en la base de datos
+                                                }
                                             }
                                         }
-                                    }
 
-                                    override fun onCancelled(error: DatabaseError) {
-                                        // Ocurrió un error al obtener las publicaciones del usuario
-                                        // Puedes mostrar un mensaje de error o realizar alguna acción adicional
-                                    }
-                                })
-                                Toast.makeText(baseContext,"Datos guardados correctamente",Toast.LENGTH_SHORT).show()
-                                // Deshabilitar la edición nuevamente
-                                nombreTextView.isEnabled = false
-                                apellidoTextView.isEnabled = false
-                                bioTextView.isEnabled = false
+                                        override fun onCancelled(error: DatabaseError) {
+                                            // Ocurrió un error al obtener las publicaciones del usuario
+                                            // Puedes mostrar un mensaje de error o realizar alguna acción adicional
+                                        }
+                                    })
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Datos guardados correctamente",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                    // Deshabilitar la edición nuevamente
+                                    nombreTextView.isEnabled = false
+                                    apellidoTextView.isEnabled = false
+                                    bioTextView.isEnabled = false
 
-                                // Mostrar los botones apropiados
-                                btneditar.visibility = View.VISIBLE
-                                btnborrar.visibility = View.VISIBLE
-                                btnguardar.visibility = View.GONE
-                                btnsalir.visibility = View.GONE
-                                btncambiarimagen.visibility=View.GONE
+                                    // Mostrar los botones apropiados
+                                    btneditar.visibility = View.VISIBLE
+                                    btnborrar.visibility = View.VISIBLE
+                                    btnguardar.visibility = View.GONE
+                                    btnsalir.visibility = View.GONE
+                                    btncambiarimagen.visibility = View.GONE
 
-                            }else{
-                                Toast.makeText(baseContext,"Error: no se pudieron guardar los datos"+it.exception,Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Error: no se pudieron guardar los datos" + it.exception,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
-                    }
 
+                    }
                 }
+            } else {
+                Toast.makeText(this, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
             }
         }
         btnborrar.setOnClickListener(){
@@ -143,6 +160,23 @@ class ViewProfile : AppCompatActivity() {
             // Eliminar datos del perfil en la base de datos
             userRef.removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    //Eliminar Post
+                    val postReference=FirebaseDatabase.getInstance().getReference("posts")
+                    val query=postReference.orderByChild("userId").equalTo(uid)
+                    query.addListenerForSingleValueEvent(object :
+                        ValueEventListener {
+                        override fun onDataChange(dataSnapshot: DataSnapshot) {
+                            for (postSnapshot in dataSnapshot.children) {
+                                // Eliminar la publicación
+                                postSnapshot.ref.removeValue()
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Ocurrió un error al obtener las publicaciones del usuario
+                            // Puedes mostrar un mensaje de error o realizar alguna acción adicional
+                        }
+                    })
                     // Eliminar la imagen de Storage
                     storageReference.delete().addOnSuccessListener {
                         // Eliminar la cuenta de usuario
