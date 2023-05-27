@@ -82,6 +82,18 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>,p
                 .addOnSuccessListener {
                     // Post eliminado exitosamente
                     Toast.makeText(activity, "Post eliminado correctamente", Toast.LENGTH_SHORT).show()
+                    // Eliminar la imagen del post del almacenamiento
+                    val storage = FirebaseStorage.getInstance()
+                    val storageRef = storage.getReferenceFromUrl(post.imageurl?:"")
+                    storageRef.delete()
+                        .addOnSuccessListener {
+                            // Imagen eliminada exitosamente
+                            Toast.makeText(activity, "Imagen eliminada correctamente", Toast.LENGTH_SHORT).show()
+                        }
+                        .addOnFailureListener { exception ->
+                            // Error al eliminar la imagen
+                            Toast.makeText(activity, "Error al eliminar la imagen: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        }
                 }
                 .addOnFailureListener { exception ->
                     // Error al eliminar el post

@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -156,10 +158,21 @@ class ViewProfile : AppCompatActivity() {
             val user = FirebaseAuth.getInstance().currentUser
             val userRef = FirebaseDatabase.getInstance().getReference("users").child(uid)
             val storageReference = FirebaseStorage.getInstance().getReference("Users/$uid")
-
+            val imageStorage=FirebaseStorage.getInstance().getReference("Post/$uid")
             // Eliminar datos del perfil en la base de datos
             userRef.removeValue().addOnCompleteListener { task ->
                 if (task.isSuccessful) {
+                    //Crea una lista y borra los items que son todas las imagenes de las publicaciones del usuario
+                    imageStorage.listAll().addOnSuccessListener { listResult ->
+                        val fileDeletionTasks = mutableListOf<Task<Void>>()
+                        for (fileRef in listResult.items) {
+                            val fileDeletionTask = fileRef.delete()
+                            fileDeletionTasks.add(fileDeletionTask)
+                        }
+                    }.addOnFailureListener {
+                        Toast.makeText(baseContext, "Error al eliminar todas las imagenes de las publicaciones del usuario", Toast.LENGTH_SHORT).show()
+                    }
+
                     //Eliminar Post
                     val postReference=FirebaseDatabase.getInstance().getReference("posts")
                     val query=postReference.orderByChild("userId").equalTo(uid)
@@ -167,7 +180,7 @@ class ViewProfile : AppCompatActivity() {
                         ValueEventListener {
                         override fun onDataChange(dataSnapshot: DataSnapshot) {
                             for (postSnapshot in dataSnapshot.children) {
-                                // Eliminar la publicación
+                                // Eliminar todas las publicaciones de la cuenta
                                 postSnapshot.ref.removeValue()
                             }
                         }
