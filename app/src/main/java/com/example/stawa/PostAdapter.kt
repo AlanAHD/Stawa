@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.service.autofill.Dataset
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseUser
@@ -19,6 +21,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
+import kotlin.math.log
 
 class PostAdapter(private val activity:Activity,private var dataset:List<Post>,private val currentUser: FirebaseUser):RecyclerView.Adapter<PostAdapter.ViewHolder>() {
     class ViewHolder(val layout:View):RecyclerView.ViewHolder(layout){
@@ -47,6 +50,7 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>,p
         holder.layout.findViewById<TextView>(R.id.nameperson_tv).text = post.username
         holder.layout.findViewById<TextView>(R.id.post_tv).text = post.contenido
         holder.layout.findViewById<TextView>(R.id.post_tv2).text = post.cantidad
+
         val imageView = holder.layout.findViewById<ImageView>(R.id.Ipost)
         // Limpiar la referencia del ImageView antes de cargar la nueva imagen
         Picasso.get().cancelRequest(imageView)
@@ -60,10 +64,19 @@ class PostAdapter(private val activity:Activity,private var dataset:List<Post>,p
         if(isCurrentUserpost){
             holder.layout.findViewById<Button>(R.id.editpost).visibility=View.VISIBLE
             holder.layout.findViewById<Button>(R.id.deletepost).visibility=View.VISIBLE
+
         }else{
             holder.layout.findViewById<Button>(R.id.editpost).visibility=View.GONE
             holder.layout.findViewById<Button>(R.id.deletepost).visibility=View.GONE
 
+
+        }
+        holder.layout.findViewById<Button>(R.id.compra).setOnClickListener{
+            val number = "+522284003998"
+            val intent = Intent(Intent.ACTION_VIEW)
+            Log.d("ayuda","$number")
+            intent.data=Uri.parse("https://api.whatsapp.com/send?phone=$number")
+            holder.itemView.context.startActivity(intent)
         }
         holder.layout.findViewById<Button>(R.id.editpost).setOnClickListener{
             val i=Intent(activity,ViewPost::class.java)

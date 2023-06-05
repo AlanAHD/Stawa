@@ -110,6 +110,27 @@
             android:inputType="textPersonName"
             android:textColor="#1E1E1E" />
 
+        <TextView
+            android:id="@+id/num"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:text="Numero de telefono"
+            android:textColor="#FFCC57" />
+
+        <EditText
+            android:id="@+id/numedit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="35dp"
+            android:backgroundTint="#EF802F"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:textColor="#1E1E1E" />
+
         <Button
             android:id="@+id/saveprofile"
             android:layout_width="135dp"

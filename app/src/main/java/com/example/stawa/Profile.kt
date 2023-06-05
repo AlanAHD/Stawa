@@ -1,5 +1,6 @@
 package com.example.stawa
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class Profile : AppCompatActivity() {
     private lateinit var imageUri:Uri
     private lateinit var storageReference: StorageReference
     private val PICK_IMAGE_REQUEST = 1
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
@@ -35,6 +37,9 @@ class Profile : AppCompatActivity() {
         val apellido:TextView=findViewById(R.id.apellidop)
         val bio:TextView=findViewById(R.id.biop)
         val btnimagen:Button=findViewById(R.id.saveprofile2)
+        val numEdit:TextView=findViewById(R.id.numedit)
+
+
         btnimagen.setOnClickListener(){
             seleccionarImagenDeGaleria()
         }
@@ -42,9 +47,10 @@ class Profile : AppCompatActivity() {
             val firstname = nombre.text.toString()
             val lastname = apellido.text.toString()
             val bio = bio.text.toString()
+            val num = numEdit.text.toString()
 
-            if (firstname.isNotEmpty() && lastname.isNotEmpty() && bio.isNotEmpty() && imageUri != null) {
-                val user = User(firstname, lastname, bio)
+            if (firstname.isNotEmpty() && lastname.isNotEmpty() && bio.isNotEmpty() && imageUri != null && num.isNotEmpty() ) {
+                val user = User(firstname, lastname, bio, num)
                 val currentUser: FirebaseUser? = auth.currentUser
                 val profileUpdates = UserProfileChangeRequest.Builder()
                     .setDisplayName(firstname)

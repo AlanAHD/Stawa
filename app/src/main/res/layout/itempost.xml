@@ -112,6 +112,18 @@
                     android:visibility="visible" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/compra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="comprar" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
