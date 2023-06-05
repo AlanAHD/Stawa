@@ -1,7 +1,10 @@
 package com.example.stawa
 
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,8 +16,15 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -40,54 +50,71 @@ class PrincipalActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private val EDIT_PROFILE_REQUEST_CODE = 1
     private val PICK_IMAGE_REQUEST = 1
-    private val postsList: ArrayList<Post> = ArrayList()
+
+
+
+    private lateinit var bottomNavigationView: BottomNavigationView
+
+    private val fragment1 = Fragment1()
+    private val fragment2 = Fragment2()
+    private val fragment3 = Fragment3()
+    private val fragment4 = Fragment4()
+    private val fragmentManager: FragmentManager = supportFragmentManager
+    private var activeFragment: Fragment = fragment1
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_principal)
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)
         firebaseAuth=Firebase.auth
-        database = FirebaseDatabase.getInstance()
-        postsReference =FirebaseDatabase.getInstance().getReference("posts")
-        currentUser=FirebaseAuth.getInstance().currentUser!!
-        val recycle=findViewById<RecyclerView>(R.id.recyclerView)
-        recycle.layoutManager=LinearLayoutManager(this)
+        val selectorColors = ColorStateList(
+            arrayOf(
+                intArrayOf(android.R.attr.state_checked),
+                intArrayOf(-android.R.attr.state_checked)
+            ),
+            intArrayOf(Color.parseColor("#EF802F"), Color.parseColor("#FFCC57"))
+        )
 
-        postAdapter= PostAdapter(this, emptyList(),currentUser)
-        recycle.adapter=postAdapter
+        bottomNavigationView.itemIconTintList = selectorColors
+        bottomNavigationView.itemTextColor = selectorColors
 
-        val btncrearpost:FloatingActionButton=findViewById(R.id.agregarp)
 
-        btncrearpost.setOnClickListener(){
-            val i=Intent(this,CreatePost::class.java)
-            startActivity(i)
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.homeitem -> {
+                    switchFragment(fragment1)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.cartitem -> {
+                    switchFragment(fragment2)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.pedidositem -> {
+                    switchFragment(fragment3)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.favitem -> {
+                    switchFragment(fragment4)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else -> return@setOnNavigationItemSelectedListener false
+            }
         }
 
-        postsReference.addValueEventListener(object :ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val posts= mutableListOf<Post>()
-                for(postSnapshop in snapshot.children){
-                    val post=postSnapshop.getValue(Post::class.java)
-                    post?.let{
-                        posts.add(it)
-                    }
-                }
-                postAdapter.setDataset(posts)
-                postAdapter.notifyDataSetChanged()
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
-
+        switchFragment(fragment1)
 
     }
 
-
-
-
-
-
-
+    private fun switchFragment(fragment: Fragment) {
+        val transaction: FragmentTransaction = fragmentManager.beginTransaction()
+        if (!fragment.isAdded) {
+            transaction.add(R.id.layout, fragment)
+        }
+        transaction.hide(activeFragment)
+        transaction.show(fragment)
+        transaction.commit()
+        activeFragment = fragment
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.nav_menu,menu)
@@ -110,9 +137,14 @@ class PrincipalActivity : AppCompatActivity() {
         return
     }
     private fun signOut(){
+        // Borrar el estado de inicio de sesión de las SharedPreferences
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.remove("isLoggedIn")
+        editor.apply()
         firebaseAuth.signOut()
         Toast.makeText(baseContext,"Sesion cerrada correctamente",Toast.LENGTH_SHORT).show()
-        val i=Intent(this,MainActivity::class.java)
+        val i=Intent(this,Inicio::class.java)
         startActivity(i)
     }
 }

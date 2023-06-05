@@ -13,17 +13,15 @@ import android.util.Patterns
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.example.stawa.databinding.ActivityInicioBinding
 import com.example.stawa.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import org.w3c.dom.Text
-
+private lateinit var binding: ActivitySignUpBinding
 class SignUpActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var binding: ActivitySignUpBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,10 +69,11 @@ class SignUpActivity : AppCompatActivity() {
         binding.iniciarSesionB.setOnClickListener(){
             val intent: Intent = Intent(this,SignInActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val txtnombre_nuevo : TextView = findViewById(R.id.edtNombre)
-        val txtcorreo_nuevo : TextView = findViewById(R.id.edtEmail)
+        val txtcorreo_nuevo : TextView = findViewById(R.id.idcorreo)
         val txtpassword1: TextView = findViewById(R.id.edtContra)
         val txtpassword2: TextView = findViewById(R.id.edtConfir)
         val btncrear: Button = findViewById(R.id.CrearCuenta)

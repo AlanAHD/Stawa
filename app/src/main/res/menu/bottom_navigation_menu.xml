@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/homeitem"
+        android:title="Inicio"
+        android:icon="@drawable/iconhome"
+        android:iconTint="#FFCC57"
+        />
+    <item
+        android:id="@+id/cartitem"
+        android:title="Carrito"
+        android:icon="@drawable/iconcart"
+        android:iconTint="#FFCC57"
+
+        />
+    <item
+        android:id="@+id/pedidositem"
+        android:title="Pedidos"
+        android:icon="@drawable/iconbox"
+        android:iconTint="#FFCC57"
+
+        />
+    <item
+        android:id="@+id/favitem"
+        android:title="Favoritos"
+        android:icon="@drawable/baseline_support_agent_24"
+        android:iconTint="#FFCC57"
+
+        />
+</menu>

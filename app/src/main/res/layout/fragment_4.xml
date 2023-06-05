@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1E1E1E"
+    tools:context=".Fragment4" >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:foregroundGravity="center">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView4"
+                android:layout_width="271dp"
+                android:layout_height="117dp"
+                android:padding="15dp"
+                android:src="@drawable/stawaicon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/cardviewsupport"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="391dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/cardviewsupport"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:gravity="center"
+                        android:text="¿Tienes algún problema o comentario?"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:textSize="30sp" />
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Selecciona un medio de contacto"
+                        android:textAlignment="center"
+                        android:textColor="#FFFAFA"
+                        android:textSize="16sp" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" >
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView16"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginTop="0dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginBottom="5dp"
+                                android:text="¿Problemas al visualizar la interfaz?"
+                                android:textAlignment="center"
+                                android:textColor="#EC7F30"
+                                android:textSize="24sp" />
+
+                            <Button
+                                android:id="@+id/interfazB"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:backgroundTint="#FECB57"
+                                android:pointerIcon="context_menu"
+                                android:text="Clic Aquí"
+                                android:textSize="20sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/iconws"
+                                app:iconSize="10dp"
+                                app:iconTint="#FFFFFF"
+                                app:iconTintMode="src_in" />
+
+                            <TextView
+                                android:id="@+id/textView15"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="25dp"
+                                android:layout_marginTop="25dp"
+                                android:layout_marginRight="25dp"
+                                android:layout_marginBottom="10dp"
+                                android:text="¿Problemas con alguna funcionalidad de la app?"
+                                android:textAlignment="center"
+                                android:textColor="#EC7F30"
+                                android:textSize="24sp" />
+
+                            <Button
+                                android:id="@+id/funcionalidadB"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="30dp"
+                                android:layout_marginRight="30dp"
+                                android:backgroundTint="#FECB57"
+                                android:text="Clic Aquí"
+                                android:textSize="20sp"
+                                app:cornerRadius="20dp"
+                                app:icon="@drawable/iconws"
+                                app:iconGravity="textStart"
+                                app:iconSize="25dp"
+                                app:iconTint="#FFFFFF" />
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

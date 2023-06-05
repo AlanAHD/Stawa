@@ -1,5 +1,6 @@
 package com.example.stawa
 //-------------- IMPORTS Y LIBRERIAS ------------------//
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -26,6 +27,15 @@ class Inicio : AppCompatActivity() {
         binding = ActivityInicioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+    val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    val isLoggedIn = sharedPreferences.getBoolean("isLoggedIn", false)
+
+    // Si el usuario ya está conectado, redirigir a PrincipalActivity
+    if (isLoggedIn) {
+        val intent = Intent(this, PrincipalActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 //-------------- Asignacion de la fuente ----------------//
         binding.textView4.typeface= Typeface.createFromAsset(assets, "Fonts/Abel-Regular.ttf")
         binding.textView6.typeface=Typeface.createFromAsset(assets, "Fonts/Abel-Regular.ttf")
